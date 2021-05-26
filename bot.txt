@@ -1,0 +1,36 @@
+client.on ('message', function(message) {
+    if (message.author.bot) return;
+    if (message.content.startsWith(config.prefix+'sig'))
+
+    var lbg = [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11'
+    ];
+    var lp = [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+        '13'
+    ];
+    var rp = lp[Math.floor(Math.random() * lp.length)];
+    var rbg = lbg[Math.floor(math.random() * lp.length)];
+    message.reply('https://www.novaragnarok.com/ROChargenPHP/newsig/Tuezin/1/1')
+})
