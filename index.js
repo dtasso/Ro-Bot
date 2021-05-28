@@ -1,50 +1,70 @@
-//login
 const Discord = require("discord.js");
-const config = require("./config.json");
+const Enmap = require("enmap");
+const fs = require("fs");
 const client = new Discord.Client();
 
-client.login(config.BOT_TOKEN);
+const config = require("./config.json");
 
-//Bem-vindo
-client.on("guildMemberAdd", member => {
-  member.send('Seja bem vindo & Pau no seu CU!')
+client.config = config;
+
+
+/*
+client.on('message', message => {
+  let responseObject = {
+    "&comandos" : "&droides, &clones, &simulation, &sus, &patentes, &jedi",
+    "&droides" : "Malditos droides, vamos destrui-los!",
+    "&clones" : "Pela República",
+    "&simulations" : "Just Like The Simulattions!",
+    "&ferido" : `O soldado ${message.author} está ferido!`,
+    "&patetens" : "patent alta bigode gross",
+    "&jedi" : "a"
+    
+  };
+
+  if(responseObject[message.content]){
+    message.channel.send(responseObject[message.content]);
+    }
+
 })
 
-//SIG
 
-client.on ('message', function(message) {
-  if (message.author.bot) return;
-  if (message.content.startsWith(config.prefix+'sig'))
 
-  var lbg = [
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      '11'
-  ];
-  var lp = [
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      '11',
-      '12',
-      '13'
-  ];
-  var rbg = lbg[Math.floor(math.random() * lp.length)];
-  var rp = lp[Math.floor(Math.random() * lp.length)];
-  message.reply('https://www.novaragnarok.com/ROChargenPHP/newsig/Tuezin/'+sig+'/'+rp+'/'+rbg)
-})
+//heroku error
+var express = require('express');
+var app     = express();
+
+app.set('port', (process.env.PORT || 5000));
+
+//For avoidong Heroku $PORT error
+app.get('/', function(request, response) {
+    var result = 'App is running'
+    response.send(result);
+}).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+});
+*/
+
+fs.readdir("./events/", (err, files) => {
+  if (err) return console.error(err);
+  files.forEach(file => {
+    const event = require(`./events/${file}`);
+    let eventName = file.split(".")[0];
+    client.on(eventName, event.bind(null, client));
+  });
+});
+
+
+client.commands = new Enmap();
+
+fs.readdir("./commands/", (err, files) => {
+  if (err) return console.error(err);
+  files.forEach(file => {
+    if (!file.endsWith(".js")) return;
+    let props = require(`./commands/${file}`);
+    let commandName = file.split(".")[0];
+    console.log(`carregando ${commandName}`);
+    client.commands.set(commandName, props);
+  });
+});
+
+client.login(config.token)
