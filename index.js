@@ -1,34 +1,14 @@
 const Discord = require("discord.js");
 const Enmap = require("enmap");
 const fs = require("fs");
+const snekfetch = require("snekfetch")
 const client = new Discord.Client();
 
 const config = require("./config.json");
-
 client.config = config;
 
 
 /*
-client.on('message', message => {
-  let responseObject = {
-    "&comandos" : "&droides, &clones, &simulation, &sus, &patentes, &jedi",
-    "&droides" : "Malditos droides, vamos destrui-los!",
-    "&clones" : "Pela República",
-    "&simulations" : "Just Like The Simulattions!",
-    "&ferido" : `O soldado ${message.author} está ferido!`,
-    "&patetens" : "patent alta bigode gross",
-    "&jedi" : "a"
-    
-  };
-
-  if(responseObject[message.content]){
-    message.channel.send(responseObject[message.content]);
-    }
-
-})
-
-
-
 //heroku error
 var express = require('express');
 var app     = express();
@@ -52,7 +32,6 @@ fs.readdir("./events/", (err, files) => {
     client.on(eventName, event.bind(null, client));
   });
 });
-
 
 client.commands = new Enmap();
 
